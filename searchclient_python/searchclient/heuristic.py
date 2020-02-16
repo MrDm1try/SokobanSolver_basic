@@ -7,13 +7,23 @@ class Heuristic(metaclass=ABCMeta):
         pass
 
     def h(self, state: 'State') -> 'int':
+        return self._boxes_not_in_places_h(state)
+
+    def _boxes_not_in_places_h(self, state: 'State') -> 'int':
+        boxes_todo = 0
+        for row in range(state.MAX_ROW):
+            for col in range(state.MAX_COL):
+                if state.boxes[row][col] and state.boxes[row][col].lower() != state.goals[row][col]:
+                    boxes_todo += 1
+        return boxes_todo
+
+    @abstractmethod
+    def f(self, state: 'State') -> 'int':
+        pass
+
+    @abstractmethod
+    def __repr__(self):
         raise NotImplementedError
-
-    @abstractmethod
-    def f(self, state: 'State') -> 'int': pass
-
-    @abstractmethod
-    def __repr__(self): raise NotImplementedError
 
 
 class AStar(Heuristic):
