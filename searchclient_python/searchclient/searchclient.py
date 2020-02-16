@@ -21,9 +21,17 @@ class SearchClient:
                 sys.exit(1)
 
             # Read lines for level.
-            self.initial_state = State()
-            row = 0
+            lines = []
             while line:
+                lines.append(line)
+                line = server_messages.readline().rstrip()
+            row = 0
+
+            max_row = len(lines)
+            max_col = max(len(lines[i]) for i in range(max_row))
+
+            self.initial_state = State(max_row=max_row, max_col=max_col)
+            for line in lines:
                 for col, char in enumerate(line):
                     if char == '+':
                         self.initial_state.walls[row][col] = True
@@ -45,7 +53,6 @@ class SearchClient:
                         print('Error, read invalid level character: {}'.format(char), file=sys.stderr, flush=True)
                         sys.exit(1)
                 row += 1
-                line = server_messages.readline().rstrip()
         except Exception as ex:
             print('Error parsing level: {}.'.format(repr(ex)), file=sys.stderr, flush=True)
             sys.exit(1)
