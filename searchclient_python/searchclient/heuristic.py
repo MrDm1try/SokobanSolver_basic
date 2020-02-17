@@ -73,7 +73,7 @@ class AStar(Heuristic):
         super().__init__(initial_state)
 
     def f(self, state: 'State') -> 'int':
-        return state.g + self.h_distance_boxes(state)
+        return state.g + self.h(state)
 
 
     def __repr__(self):
@@ -86,7 +86,7 @@ class WAStar(Heuristic):
         self.w = w
 
     def f(self, state: 'State') -> 'int':
-        return state.g + self.w * self.h_distance_boxes(state)
+        return state.g + self.w * self.h(state)
 
     def __repr__(self):
         return 'WA* ({}) evaluation'.format(self.w)
@@ -97,7 +97,7 @@ class Greedy(Heuristic):
         super().__init__(initial_state)
 
     def f(self, state: 'State') -> 'int':
-        return self.h_distance_boxes(state)
+        return self.h(state)
 
 
     def __repr__(self):
