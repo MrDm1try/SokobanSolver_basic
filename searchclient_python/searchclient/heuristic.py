@@ -97,7 +97,7 @@ class Greedy(Heuristic):
         super().__init__(initial_state)
 
     def f(self, state: 'State') -> 'int':
-        return self.h_distance(state)
+        return self.h_distance_boxes(state)
 
 
     def __repr__(self):
